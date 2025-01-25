@@ -71,5 +71,3 @@ if st.button("Ejecutar Docking"):
     else:
         st.error("Por favor, sube tanto el archivo de la proteína como el del ligando.")
 
-# Sección para ayuda y notas
-st.info("Nota: Asegúrate de que AutoDock Vina está instalado y accesible desde tu sistema.")
