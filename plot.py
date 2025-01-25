@@ -24,6 +24,9 @@ size_y = st.sidebar.number_input("Tamaño Y", value=20.0)
 size_z = st.sidebar.number_input("Tamaño Z", value=20.0)
 exhaustiveness = st.sidebar.slider("Exhaustividad", min_value=1, max_value=16, value=8)
 
+# Ruta absoluta del ejecutable de AutoDock Vina
+vina_executable = "C:/ruta/completa/a/vina.exe"  # Cambia esto según la ubicación en tu sistema
+
 # Botón para ejecutar docking
 if st.button("Ejecutar Docking"):
     if target_file and ligand_file:
@@ -40,7 +43,7 @@ if st.button("Ejecutar Docking"):
         # Configurar el comando de AutoDock Vina
         output_file = os.path.join("uploads", "result.pdbqt")
         vina_command = (
-            f"vina --receptor {target_path} --ligand {ligand_path} "
+            f"{vina_executable} --receptor {target_path} --ligand {ligand_path} "
             f"--center_x {center_x} --center_y {center_y} --center_z {center_z} "
             f"--size_x {size_x} --size_y {size_y} --size_z {size_z} "
             f"--exhaustiveness {exhaustiveness} --out {output_file}"
@@ -64,3 +67,4 @@ if st.button("Ejecutar Docking"):
 
 # Sección para ayuda y notas
 st.info("Nota: Asegúrate de que AutoDock Vina está instalado y accesible desde tu sistema.")
+
