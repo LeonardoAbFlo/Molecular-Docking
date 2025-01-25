@@ -1,0 +1,29 @@
+name: AutoDock Vina Docking
+
+on:
+  push:
+    branches:
+      - main  # Puedes cambiarlo para que se ejecute en otro evento, como un 'pull_request'
+
+jobs:
+  run_docking:
+    runs-on: ubuntu-latest  # Usa un runner hospedado en GitHub con Ubuntu
+
+    steps:
+      # 1. Checkout del repositorio para que el código esté disponible
+      - name: Checkout repository
+        uses: actions/checkout@v2
+
+      # 2. Instalar AutoDock Vina
+      - name: Install AutoDock Vina
+        run: |
+          sudo apt-get update
+          sudo apt-get install -y autodock-vina
+
+      # 3. Configurar permisos para el archivo ejecutable
+      - name: Set executable permissions for vina.exe
+        run: chmod +x vina/vina.exe  # Si el ejecutable es un binario de Linux. Si es Windows, necesitarías otra configuración.
+
+      # 4. Ejecutar AutoDock Vina
+      - name: Execute AutoDock Vina
+        run: ./vina/vina.exe --help  # Ejecuta el comando que necesites
