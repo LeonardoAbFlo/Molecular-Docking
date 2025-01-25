@@ -10,15 +10,17 @@ on:
 
 jobs:
   run_docking:
-    runs-on: ubuntu-latest  # Usamos un contenedor de Ubuntu para Linux
+    runs-on: windows-latest  # Usamos un contenedor de Windows
 
     steps:
-      # Paso 1: Descargar AutoDock Vina
-      - name: Download AutoDock Vina
+      # Paso 1: Subir AutoDock Vina
+      - name: Upload AutoDock Vina
         run: |
-          curl -L https://github.com/ccsb-scripps/AutoDock-Vina/releases/download/v1.2.3/vina_1_2_3_linux_x86_64.tar.gz -o vina.tar.gz
+          # Si ya tienes el archivo vina.exe en el repositorio, lo subes
+          # Asegúrate de que 'vina.exe' esté en el directorio correcto
+          curl -L https://github.com/ccsb-scripps/AutoDock-Vina/releases/download/v1.2.3/vina_1_2_3_win64.tar.gz -o vina.tar.gz
           tar -xvzf vina.tar.gz
-          chmod +x vina/vina  # Dar permisos de ejecución al archivo
+          mv vina/vina.exe ${{ github.workspace }}/vina/vina.exe  # Mover el ejecutable al directorio correcto
 
       # Paso 2: Configurar el entorno y dependencias
       - name: Set up Python environment
@@ -30,10 +32,17 @@ jobs:
         run: |
           pip install -r requirements.txt  # Asegúrate de que las dependencias de tu app estén en este archivo
 
-      # Paso 3: Subir los archivos a GitHub y ejecutar docking
-      - name: Run Docking
+      # Paso 3: Subir los archivos necesarios (proteína y ligando)
+      - name: Upload files (Protein and Ligand)
         run: |
-          # Ejecuta el script de Python con AutoDock Vina
-          python your_script.py  # Asegúrate de que tu código de Streamlit esté aquí
+          mkdir -p ${{ github.workspace }}/uploads
+          # Puedes agregar aquí pasos para subir tus archivos a un directorio en el repositorio o
+          # bien dejarlos como parte de tu flujo de trabajo si ya los tienes.
+
+      # Paso 4: Ejecutar AutoDock Vina
+      - name: Run Docking with AutoDock Vina
+        run: |
+          # Ejecutar el comando para usar vina.exe
+          ${{ github.workspace }}/vina/vina.exe --receptor ${{ github.workspace }}/uploads/target.pdbqt --ligand ${{ github.workspace }}/uploads/ligand.pdbqt --out ${{ github.workspace }}/uploads/result.pdbqt
         env:
-          VINA_PATH: ${{ github.workspace }}/vina/vina  # La ruta al ejecutable
+          VINA_PATH: ${{ github.workspace }}/vina/vina.exe  # Ruta al ejecutable
