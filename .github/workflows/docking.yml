@@ -3,11 +3,11 @@ name: AutoDock Vina Docking
 on:
   push:
     branches:
-      - main  # Puedes cambiarlo para que se ejecute en otro evento, como un 'pull_request'
+      - main 
 
 jobs:
   run_docking:
-    runs-on: self-hosted  # Cambié esto a self-hosted para usar tu runner autohospedado
+    runs-on: self-hosted
 
     steps:
       # 1. Checkout del repositorio para que el código esté disponible
