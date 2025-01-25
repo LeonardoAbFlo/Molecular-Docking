@@ -24,8 +24,9 @@ size_y = st.sidebar.number_input("Tamaño Y", value=20.0)
 size_z = st.sidebar.number_input("Tamaño Z", value=20.0)
 exhaustiveness = st.sidebar.slider("Exhaustividad", min_value=1, max_value=16, value=8)
 
-# Ruta absoluta del ejecutable de AutoDock Vina
-vina_executable = "vina/vina.exe"
+# Ruta del ejecutable de AutoDock Vina (ajustado según tu entorno)
+# Si ejecutas en un servidor o en GitHub Actions, la ruta debería ser correcta después de compilar AutoDock Vina
+vina_executable = "/path/to/vina/vina"  # Asegúrate de colocar la ruta correcta al ejecutable
 
 # Botón para ejecutar docking
 if st.button("Ejecutar Docking"):
@@ -67,3 +68,4 @@ if st.button("Ejecutar Docking"):
 
 # Sección para ayuda y notas
 st.info("Nota: Asegúrate de que AutoDock Vina está instalado y accesible desde tu sistema.")
+
