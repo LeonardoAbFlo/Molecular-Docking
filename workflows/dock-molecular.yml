@@ -13,11 +13,9 @@ jobs:
     runs-on: windows-latest  # Usamos un contenedor de Windows
 
     steps:
-      # Paso 1: Subir AutoDock Vina
-      - name: Upload AutoDock Vina
+      # Paso 1: Descargar AutoDock Vina
+      - name: Download AutoDock Vina
         run: |
-          # Si ya tienes el archivo vina.exe en el repositorio, lo subes
-          # Asegúrate de que 'vina.exe' esté en el directorio correcto
           curl -L https://github.com/ccsb-scripps/AutoDock-Vina/releases/download/v1.2.3/vina_1_2_3_win64.tar.gz -o vina.tar.gz
           tar -xvzf vina.tar.gz
           mv vina/vina.exe ${{ github.workspace }}/vina/vina.exe  # Mover el ejecutable al directorio correcto
@@ -36,13 +34,16 @@ jobs:
       - name: Upload files (Protein and Ligand)
         run: |
           mkdir -p ${{ github.workspace }}/uploads
-          # Puedes agregar aquí pasos para subir tus archivos a un directorio en el repositorio o
-          # bien dejarlos como parte de tu flujo de trabajo si ya los tienes.
+          # Agregar pasos para subir tus archivos si es necesario
 
-      # Paso 4: Ejecutar AutoDock Vina
+      # Paso 4: Establecer permisos de ejecución en Windows (si es necesario)
+      - name: Set executable permissions for vina.exe
+        run: |
+          icacls ${{ github.workspace }}/vina/vina.exe /grant Everyone:F
+
+      # Paso 5: Ejecutar AutoDock Vina
       - name: Run Docking with AutoDock Vina
         run: |
-          # Ejecutar el comando para usar vina.exe
           ${{ github.workspace }}/vina/vina.exe --receptor ${{ github.workspace }}/uploads/target.pdbqt --ligand ${{ github.workspace }}/uploads/ligand.pdbqt --out ${{ github.workspace }}/uploads/result.pdbqt
         env:
           VINA_PATH: ${{ github.workspace }}/vina/vina.exe  # Ruta al ejecutable
