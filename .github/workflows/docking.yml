@@ -7,7 +7,7 @@ on:
 
 jobs:
   run_docking:
-    runs-on: ubuntu-latest  # Usa un runner hospedado en GitHub con Ubuntu
+    runs-on: self-hosted  # Cambié esto a self-hosted para usar tu runner autohospedado
 
     steps:
       # 1. Checkout del repositorio para que el código esté disponible
@@ -38,3 +38,4 @@ jobs:
       # 4. Ejecutar AutoDock Vina
       - name: Execute AutoDock Vina
         run: ./AutoDock-Vina/build/vina --help  # Ejecuta el comando que necesites
+
