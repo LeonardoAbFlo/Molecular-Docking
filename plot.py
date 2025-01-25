@@ -25,12 +25,7 @@ size_z = st.sidebar.number_input("Tamaño Z", value=20.0)
 exhaustiveness = st.sidebar.slider("Exhaustividad", min_value=1, max_value=16, value=8)
 
 # Ruta absoluta del ejecutable de AutoDock Vina
-vina_executable = os.path.join(os.getcwd(), "vina/vina.exe")  # Usamos la ruta absoluta
-
-# Asegurarse de que el archivo ejecutable tenga permisos de ejecución
-if not os.access(vina_executable, os.X_OK):
-    st.error(f"No se puede ejecutar el archivo {vina_executable}. Asegúrate de que tenga permisos de ejecución.")
-    st.stop()
+vina_executable = "vina/vina.exe"
 
 # Botón para ejecutar docking
 if st.button("Ejecutar Docking"):
@@ -66,8 +61,9 @@ if st.button("Ejecutar Docking"):
                 st.text(f.read())
         else:
             st.error("Error al ejecutar AutoDock Vina.")
-            st.write("Salida estándar: ", process.stdout)
-            st.write("Error: ", process.stderr)
+            st.text(process.stderr)
     else:
         st.error("Por favor, sube tanto el archivo de la proteína como el del ligando.")
 
+# Sección para ayuda y notas
+st.info("Nota: Asegúrate de que AutoDock Vina está instalado y accesible desde tu sistema.")
