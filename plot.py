@@ -26,7 +26,7 @@ exhaustiveness = st.sidebar.slider("Exhaustividad", min_value=1, max_value=16, v
 
 # Ruta del ejecutable de AutoDock Vina (ajustado según tu entorno)
 # Si ejecutas en un servidor o en GitHub Actions, la ruta debería ser correcta después de compilar AutoDock Vina
-vina_executable = "\build\Release\vina.exe"  # Asegúrate de colocar la ruta correcta al ejecutable
+vina_executable = "\vina\vina.exe"  # Asegúrate de colocar la ruta correcta al ejecutable
 
 # Botón para ejecutar docking
 if st.button("Ejecutar Docking"):
