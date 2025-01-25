@@ -25,7 +25,7 @@ size_z = st.sidebar.number_input("Tamaño Z", value=20.0)
 exhaustiveness = st.sidebar.slider("Exhaustividad", min_value=1, max_value=16, value=8)
 
 # Ruta absoluta del ejecutable de AutoDock Vina
-vina_executable = "C:/ruta/completa/a/vina.exe"  # Cambia esto según la ubicación en tu sistema
+vina_executable = ""
 
 # Botón para ejecutar docking
 if st.button("Ejecutar Docking"):
