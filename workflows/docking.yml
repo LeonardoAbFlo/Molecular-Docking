@@ -14,16 +14,27 @@ jobs:
       - name: Checkout repository
         uses: actions/checkout@v2
 
-      # 2. Instalar AutoDock Vina
-      - name: Install AutoDock Vina
+      # 2. Descargar y configurar AutoDock Vina desde el código fuente
+      - name: Download and compile AutoDock Vina
         run: |
+          # Instalar dependencias necesarias
           sudo apt-get update
-          sudo apt-get install -y autodock-vina
+          sudo apt-get install -y build-essential cmake git
+          
+          # Clonar el repositorio de AutoDock Vina
+          git clone https://github.com/ccsb-scripps/AutoDock-Vina.git
+          cd AutoDock-Vina
+
+          # Crear directorios de compilación y compilar el código fuente
+          mkdir build
+          cd build
+          cmake ..
+          make
 
       # 3. Configurar permisos para el archivo ejecutable
-      - name: Set executable permissions for vina.exe
-        run: chmod +x vina/vina.exe  # Si el ejecutable es un binario de Linux. Si es Windows, necesitarías otra configuración.
+      - name: Set executable permissions for vina
+        run: chmod +x ./AutoDock-Vina/build/vina  # Si estás en Linux, se usará el ejecutable de Linux
 
       # 4. Ejecutar AutoDock Vina
       - name: Execute AutoDock Vina
-        run: ./vina/vina.exe --help  # Ejecuta el comando que necesites
+        run: ./AutoDock-Vina/build/vina --help  # Ejecuta el comando que necesites
