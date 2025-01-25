@@ -3,7 +3,7 @@ name: Docking Molecular with AutoDock Vina
 on:
   push:
     branches:
-      - main  # O cualquier rama que uses
+      - main
   pull_request:
     branches:
       - main
@@ -39,7 +39,7 @@ jobs:
       # Paso 4: Establecer permisos de ejecución en Windows (si es necesario)
       - name: Set executable permissions for vina.exe
         run: |
-          icacls ${{ github.workspace }}/vina/vina.exe /grant Everyone:F
+          icacls ${{ github.workspace }}/vina/vina.exe /grant Everyone:F /T
 
       # Paso 5: Ejecutar AutoDock Vina
       - name: Run Docking with AutoDock Vina
