@@ -26,24 +26,38 @@ jobs:
         with:
           python-version: 3.12.8  # O la versión que prefieras
 
+      # Paso 3: Instalar dependencias (si tienes requisitos específicos en requirements.txt)
       - name: Install dependencies
         run: |
           pip install -r requirements.txt  # Asegúrate de que las dependencias de tu app estén en este archivo
 
-      # Paso 3: Subir los archivos necesarios (proteína y ligando)
+      # Paso 4: Subir los archivos necesarios (proteína y ligando)
       - name: Upload files (Protein and Ligand)
         run: |
           mkdir -p ${{ github.workspace }}/uploads
-          # Agregar pasos para subir tus archivos si es necesario
+          # Agregar pasos para subir tus archivos si es necesario (esto es solo un ejemplo)
+          # Asegúrate de que los archivos target.pdbqt y ligand.pdbqt estén en el repositorio o en un lugar accesible
 
-      # Paso 4: Establecer permisos de ejecución en Windows (si es necesario)
+      # Paso 5: Establecer permisos de ejecución en Windows (si es necesario)
       - name: Set executable permissions for vina.exe
         run: |
           icacls ${{ github.workspace }}/vina/vina.exe /grant Everyone:F /T
 
-      # Paso 5: Ejecutar AutoDock Vina
+      # Paso 6: Verificar los archivos de entrada
+      - name: Verify input files
+        run: |
+          echo "Receptor file: ${{ github.workspace }}/uploads/target.pdbqt"
+          echo "Ligand file: ${{ github.workspace }}/uploads/ligand.pdbqt"
+        
+      # Paso 7: Ejecutar AutoDock Vina
       - name: Run Docking with AutoDock Vina
         run: |
           ${{ github.workspace }}/vina/vina.exe --receptor ${{ github.workspace }}/uploads/target.pdbqt --ligand ${{ github.workspace }}/uploads/ligand.pdbqt --out ${{ github.workspace }}/uploads/result.pdbqt
         env:
           VINA_PATH: ${{ github.workspace }}/vina/vina.exe  # Ruta al ejecutable
+
+      # Paso 8: Mostrar resultados
+      - name: Display results
+        run: |
+          echo "Docking completed. Results are saved in result.pdbqt."
+          cat ${{ github.workspace }}/uploads/result.pdbqt
