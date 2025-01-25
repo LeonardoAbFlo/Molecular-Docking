@@ -1,0 +1,39 @@
+name: Docking Molecular with AutoDock Vina
+
+on:
+  push:
+    branches:
+      - main  # O cualquier rama que uses
+  pull_request:
+    branches:
+      - main
+
+jobs:
+  run_docking:
+    runs-on: ubuntu-latest  # Usamos un contenedor de Ubuntu para Linux
+
+    steps:
+      # Paso 1: Descargar AutoDock Vina
+      - name: Download AutoDock Vina
+        run: |
+          curl -L https://github.com/ccsb-scripps/AutoDock-Vina/releases/download/v1.2.3/vina_1_2_3_linux_x86_64.tar.gz -o vina.tar.gz
+          tar -xvzf vina.tar.gz
+          chmod +x vina/vina  # Dar permisos de ejecución al archivo
+
+      # Paso 2: Configurar el entorno y dependencias
+      - name: Set up Python environment
+        uses: actions/setup-python@v4
+        with:
+          python-version: 3.8  # O la versión que prefieras
+
+      - name: Install dependencies
+        run: |
+          pip install -r requirements.txt  # Asegúrate de que las dependencias de tu app estén en este archivo
+
+      # Paso 3: Subir los archivos a GitHub y ejecutar docking
+      - name: Run Docking
+        run: |
+          # Ejecuta el script de Python con AutoDock Vina
+          python your_script.py  # Asegúrate de que tu código de Streamlit esté aquí
+        env:
+          VINA_PATH: ${{ github.workspace }}/vina/vina  # La ruta al ejecutable
