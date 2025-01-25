@@ -2,7 +2,6 @@ import streamlit as st
 import os
 import subprocess
 
-# Título de la aplicación
 st.title("Docking Molecular con AutoDock Vina")
 
 # Sección de carga de archivos
@@ -24,8 +23,6 @@ size_y = st.sidebar.number_input("Tamaño Y", value=20.0)
 size_z = st.sidebar.number_input("Tamaño Z", value=20.0)
 exhaustiveness = st.sidebar.slider("Exhaustividad", min_value=1, max_value=16, value=8)
 
-# Ruta del ejecutable de AutoDock Vina (ajustado según tu entorno)
-# Si ejecutas en un servidor o en GitHub Actions, la ruta debería ser correcta después de compilar AutoDock Vina
 vina_executable = r"C:\path\to\AutoDock-Vina\build\Release\vina.exe"  # Ruta completa de vina.exe
 
 # Botón para ejecutar docking
